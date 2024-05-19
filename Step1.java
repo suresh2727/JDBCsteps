@@ -3,8 +3,11 @@ package com.ps.app1;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import com.mysql.cj.protocol.Resultset;
 
 //import com.mysql.cj.x.protobuf.MysqlxPrepare.Execute;
 //import com.mysql.cj.xdevapi.DatabaseObject;
@@ -16,7 +19,7 @@ public class Step1 {
 			String url = "jdbc:mysql://localhost:3306/StudentApp";
 			String user = "root";
 			String password = "tiger";
-			Statement stmt=null;
+			//Statement stmt=null;
 			String query = "INSERT INTO STUDENT_TABLE VALUES(1,'SURESH', 7878807288 , 'COOLSURU2727@GMAIL.COM' , 'CSE' , 'BANGALORE' , 'SURESH')";
 			
 			//Step 1: Loading and registering the driver
@@ -31,16 +34,28 @@ public class Step1 {
 			
 			//Step 3: Creating a Platform
 			
-			stmt = con.createStatement();
+			//stmt = con.createStatement();
 			System.out.println("Platform Created for Executing SQL queries");
 			
 			
 			//step 4 : Executing the sql queries;
 		
-			boolean s =stmt.execute("select * from student_table");
-			System.out.println(s);
-			System.out.println("Data Added Successfull added");
+			//boolean s =stmt.execute("select * from student_table");
+			//System.out.println(s);
+			//System.out.println("Data Added Successfull added");
+			PreparedStatement p = con.prepareStatement("select * from student_table");
+			ResultSet rs = p.executeQuery();
+			while(rs.next()) {
+				System.out.println(rs.getString("sid"));
+				System.out.println(rs.getString("name"));
+				System.out.println(rs.getString("phone"));
+				System.out.println(rs.getString("mail"));
+				System.out.println(rs.getString("branch"));
+				System.out.println(rs.getString("location"));
+				System.out.println(rs.getString("Password"));
+			}
 			
+			//System.out.println(rs);
 			
 			} catch (ClassNotFoundException | SQLException e) { 
 			e.printStackTrace(); 
